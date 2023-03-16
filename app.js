@@ -3,11 +3,13 @@ let kisiler = [];
 
 // Ekle butonuna tıklandığında çalışacak olan fonksiyon
 function addPerson() {
+
   // Ad , soyad , numara , ülke alanlarından değerleri alın
   let ad = document.getElementById("adInput").value;
   let soyad = document.getElementById("soyadInput").value;
   let numara = document.getElementById("numaraInput").value;
   let ulke = document.getElementById("ulkeInput").value;
+  let form = document.getElementById("form");
 
   // Ad , soyadın , numara , ülke boş olup olmadığını kontrol edin
   if (ad === "" || soyad === "" || numara === "" || ulke === "") {
@@ -28,17 +30,28 @@ function addPerson() {
   kisiler.map(function (kisi) {
     let li = document.createElement("li");
     let span = document.createElement("span");
-    span.appendChild(document.createTextNode(kisi.ad + " " + kisi.soyad + " " + kisi.numara + " " + kisi.ulke));
+    span.appendChild(document.createTextNode(kisi.ad + "--" + kisi.soyad + "--" + kisi.numara + "--" + kisi.ulke + "--"));
     li.appendChild(span);
 
     // Düzenle düğmesi ekle
+    
     let duzenleBtn = document.createElement("button");
     duzenleBtn.appendChild(document.createTextNode("Düzenle"));
+  
     duzenleBtn.onclick = function () {
+      if (e.target.classList.contains("edit")) {
+        document.getElementById("adInput").value =
+          e.target.parentNode.childNodes[0].data;
+          ekle.value = "Düzenle";
+        editItem = e;
+      }
+      
+      /*
       let yeniAd = prompt("Lütfen yeni adı girin:", kisi.ad);
       let yeniSoyad = prompt("Lütfen yeni soyadı girin:", kisi.soyad);
       let yeniNumara = prompt("Lütfen yeni numarayı girin:", kisi.numara);
       let yeniUlke = prompt("Lütfen yeni ülkeyi girin:", kisi.ulke);
+      */
 
       if (yeniAd === "" || yeniSoyad === "" || yeniNumara === "" || yeniUlke === "") {
         alert("Lütfen bilgileri giriniz.");
@@ -52,6 +65,9 @@ function addPerson() {
       span.textContent = kisi.ad + " " + kisi.soyad + " " + kisi.numara + " " + kisi.ulke;
     };
     li.appendChild(duzenleBtn);
+    
+    
+    
 
     // Sil düğmesi ekle
     let silBtn = document.createElement("button");
@@ -67,9 +83,23 @@ function addPerson() {
     liste.appendChild(li);
   });
 
+
   // Ad , soyad , numara , ülke alanlarını temizleyin
   document.getElementById("adInput").value = "";
   document.getElementById("soyadInput").value = "";
   document.getElementById("numaraInput").value = "";
   document.getElementById("ulkeInput").value = "";
+}
+
+function removeItem(e) {
+	e.preventDefault();
+	
+    if (e.target.classList.contains("edit")) {
+      document.getElementById("liste").value =
+        e.target.parentNode.childNodes[0].data;
+        ekle.value = "Düzenle";
+      editItem = e;
+    }
+  
+
 }
